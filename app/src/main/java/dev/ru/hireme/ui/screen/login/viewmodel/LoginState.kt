@@ -1,4 +1,4 @@
-package dev.ru.hireme.ui.screen.login
+package dev.ru.hireme.ui.screen.login.viewmodel
 
 data class LoginState(
     val email: String = "",

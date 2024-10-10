@@ -1,4 +1,4 @@
-package dev.ru.hireme.ui.screen.login
+package dev.ru.hireme.ui.screen.login.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
