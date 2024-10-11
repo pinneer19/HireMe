@@ -25,7 +25,7 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    private fun login(onConfirmEmail: () -> Unit) {
+    private fun login(onConfirmEmail: (String) -> Unit) {
         viewModelScope.launch {
             _uiState.update {
                 it.copy(loading = true)
@@ -35,11 +35,11 @@ class LoginViewModel @Inject constructor(
 
             _uiState.update {
                 if (validationResult) {
-                    onConfirmEmail()
-                    it.copy(loading = false)
+                    onConfirmEmail(it.email)
+                    it.copy(loading = false, error = null)
                 } else {
                     it.copy(
-                        error = "Incorrect email format",
+                        error = "Неправильный формат почты",
                         loading = false
                     )
                 }

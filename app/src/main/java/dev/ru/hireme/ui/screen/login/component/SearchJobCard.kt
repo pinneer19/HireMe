@@ -1,6 +1,10 @@
 package dev.ru.hireme.ui.screen.login.component
 
 import android.widget.Toast
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
@@ -23,7 +27,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
@@ -36,6 +39,7 @@ import dev.ru.hireme.ui.theme.AppTextStyle
 @Composable
 fun SearchJobCard(
     email: String,
+    error: String?,
     onEmailUpdate: (String) -> Unit,
     onLogin: () -> Unit,
     modifier: Modifier = Modifier
@@ -66,14 +70,23 @@ fun SearchJobCard(
                 },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 16.dp),
+                    .padding(top = 16.dp)
+                    .then(
+                        error?.let {
+                            Modifier.border(
+                                width = 1.dp,
+                                color = AppColor.red,
+                                shape = RoundedCornerShape(8.dp)
+                            )
+                        } ?: Modifier.padding(bottom = 16.dp)
+                    ),
                 shape = RoundedCornerShape(8.dp),
                 colors = TextFieldDefaults.colors(
                     unfocusedContainerColor = AppColor.grey2,
                     unfocusedTextColor = AppColor.white,
                     unfocusedPlaceholderColor = AppColor.grey4,
-                    unfocusedIndicatorColor = Color.Transparent,
-                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = AppColor.transparent,
+                    focusedIndicatorColor = AppColor.transparent,
                     focusedContainerColor = AppColor.grey2.copy(alpha = 0.8f),
                     focusedTextColor = AppColor.white
                 ),
@@ -86,6 +99,19 @@ fun SearchJobCard(
                     }
                 )
             )
+
+            AnimatedVisibility(
+                visible = error != null,
+                enter = fadeIn(),
+                exit = fadeOut(),
+                modifier = Modifier.padding(vertical = 8.dp)
+            ) {
+                Text(
+                    text = error.orEmpty(),
+                    style = AppTextStyle.title_4,
+                    color = AppColor.red
+                )
+            }
 
             Row(
                 modifier = Modifier

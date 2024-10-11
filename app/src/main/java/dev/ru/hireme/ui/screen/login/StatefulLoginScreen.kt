@@ -18,8 +18,10 @@ fun StatefulLoginScreen(
     LoginScreen(
         uiState = uiState,
         onEvent = viewModel::onEvent,
-        onConfirmEmail = {
-            navController.navigate(Route.EmailConfirmation)
+        onConfirmEmail = { email ->
+            navController.navigate(
+                Route.EmailConfirmation(email = email)
+            )
         }
     )
 }

@@ -33,17 +33,8 @@ import dev.ru.hireme.ui.theme.AppTextStyle
 fun LoginScreen(
     uiState: LoginState,
     onEvent: (LoginEvent) -> Unit,
-    onConfirmEmail: () -> Unit
+    onConfirmEmail: (String) -> Unit
 ) {
-    val context = LocalContext.current
-    val error = uiState.error
-
-    LaunchedEffect(key1 = error) {
-        error?.let {
-            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
-        }
-    }
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -64,11 +55,14 @@ fun LoginScreen(
 
         SearchJobCard(
             email = uiState.email,
+            error = uiState.error,
             onEmailUpdate = {
                 onEvent(LoginEvent.UpdateEmailInput(it))
             },
             onLogin = {
-                onEvent(LoginEvent.Login(onConfirmEmail = onConfirmEmail))
+                onEvent(
+                    LoginEvent.Login(onConfirmEmail = onConfirmEmail)
+                )
             },
             modifier = Modifier.fillMaxWidth()
         )

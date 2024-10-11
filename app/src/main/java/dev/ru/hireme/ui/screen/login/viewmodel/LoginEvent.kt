@@ -4,5 +4,5 @@ sealed class LoginEvent {
 
     data class UpdateEmailInput(val email: String) : LoginEvent()
 
-    data class Login(val onConfirmEmail: () -> Unit) : LoginEvent()
+    data class Login(val onConfirmEmail: (String) -> Unit) : LoginEvent()
 }
