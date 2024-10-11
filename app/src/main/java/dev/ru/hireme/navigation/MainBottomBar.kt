@@ -13,7 +13,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
-
+import dev.ru.hireme.ui.theme.AppColor
+import dev.ru.hireme.ui.theme.AppTextStyle
 
 @Composable
 fun MainBottomBar(
@@ -21,7 +22,7 @@ fun MainBottomBar(
     onNavigationBarItemClick: (Route) -> Unit
 ) {
     NavigationBar(
-        containerColor = MaterialTheme.colorScheme.surface
+        containerColor = AppColor.black
     ) {
         BottomNavigation.entries.forEach { navigationItem ->
             val isSelected by remember(currentRoute) {
@@ -32,12 +33,17 @@ fun MainBottomBar(
 
             NavigationBarItem(
                 colors = NavigationBarItemDefaults.colors(
-                    selectedIconColor = MaterialTheme.colorScheme.primary,
-                    indicatorColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.2f)
+                    selectedIconColor = AppColor.blue,
+                    indicatorColor = AppColor.transparent,
+                    unselectedIconColor = AppColor.grey4
                 ),
                 selected = isSelected,
                 label = {
-                    Text(text = label)
+                    Text(
+                        text = label,
+                        style = AppTextStyle.tab_text,
+                        color = if (isSelected) AppColor.blue else AppColor.grey4
+                    )
                 },
                 onClick = {
                     onNavigationBarItemClick(navigationItem.route)
