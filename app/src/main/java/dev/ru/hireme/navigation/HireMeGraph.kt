@@ -23,6 +23,8 @@ import androidx.navigation.toRoute
 import dev.ru.hireme.ui.screen.email_confirmation.StatefulEmailConfirmationScreen
 import dev.ru.hireme.ui.screen.email_confirmation.viewmodel.EmailConfirmationViewModel
 import dev.ru.hireme.ui.screen.login.StatefulLoginScreen
+import dev.ru.hireme.ui.screen.main.StatefulMainScreen
+import dev.ru.hireme.ui.util.ScreenPlaceholder
 import dev.ru.hireme.ui.util.getSubstringBeforeRouteSymbols
 import dev.ru.hireme.ui.util.showBottomBar
 
@@ -67,7 +69,7 @@ fun HireMeGraph() {
         NavHost(
             modifier = Modifier.padding(innerPadding),
             navController = navController,
-            startDestination = Route.Login
+            startDestination = Route.Main
         ) {
             composable<Route.Login> {
                 StatefulLoginScreen(navController)
@@ -86,12 +88,24 @@ fun HireMeGraph() {
                 )
             }
 
-            composable<Route.Search> {
-
+            composable<Route.Main> {
+                StatefulMainScreen(navController = navController)
             }
 
             composable<Route.Message> {
-                Text("hello")
+                ScreenPlaceholder(title = "Сообщения")
+            }
+
+            composable<Route.Profile> {
+                ScreenPlaceholder(title = "Профиль")
+            }
+
+            composable<Route.Application> {
+                ScreenPlaceholder(title = "Отклики")
+            }
+
+            composable<Route.Favorite> {
+                ScreenPlaceholder(title = "Message")
             }
         }
     }

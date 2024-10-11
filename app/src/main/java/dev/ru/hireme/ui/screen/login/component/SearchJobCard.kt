@@ -15,14 +15,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -30,9 +27,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import dev.ru.hireme.R
+import dev.ru.hireme.ui.component.InputTextField
 import dev.ru.hireme.ui.theme.AppColor
 import dev.ru.hireme.ui.theme.AppTextStyle
 
@@ -62,12 +59,10 @@ fun SearchJobCard(
                 style = AppTextStyle.title_3
             )
 
-            TextField(
+            InputTextField(
                 value = email,
                 onValueChange = onEmailUpdate,
-                placeholder = {
-                    Text(text = stringResource(id = R.string.email))
-                },
+                placeholderText = stringResource(id = R.string.email),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 16.dp)
@@ -80,19 +75,6 @@ fun SearchJobCard(
                             )
                         } ?: Modifier.padding(bottom = 16.dp)
                     ),
-                shape = RoundedCornerShape(8.dp),
-                colors = TextFieldDefaults.colors(
-                    unfocusedContainerColor = AppColor.grey2,
-                    unfocusedTextColor = AppColor.white,
-                    unfocusedPlaceholderColor = AppColor.grey4,
-                    unfocusedIndicatorColor = AppColor.transparent,
-                    focusedIndicatorColor = AppColor.transparent,
-                    focusedContainerColor = AppColor.grey2.copy(alpha = 0.8f),
-                    focusedTextColor = AppColor.white
-                ),
-                textStyle = AppTextStyle.text_1,
-                singleLine = true,
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
                 keyboardActions = KeyboardActions(
                     onDone = {
                         focusManager.clearFocus()

@@ -11,11 +11,16 @@ import androidx.compose.ui.graphics.toArgb
 import dagger.hilt.android.AndroidEntryPoint
 import dev.ru.hireme.navigation.HireMeGraph
 import dev.ru.hireme.ui.theme.AppColor
+import java.util.Locale
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // For correct text displaying on english layout devices
+        this.resources.configuration.setLocale(Locale("ru"))
+
         enableEdgeToEdge(
             statusBarStyle = SystemBarStyle.dark(scrim = AppColor.black.toArgb()),
             navigationBarStyle = SystemBarStyle.dark(scrim = AppColor.black.toArgb())

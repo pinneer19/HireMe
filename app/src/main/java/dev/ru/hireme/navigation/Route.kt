@@ -8,7 +8,7 @@ sealed class Route {
     data object Login : Route()
 
     @Serializable
-    data object Search : Route()
+    data object Main : Route()
 
     @Serializable
     data class EmailConfirmation(val email: String) : Route()

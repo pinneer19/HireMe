@@ -19,7 +19,7 @@ fun StatefulEmailConfirmationScreen(
         uiState = uiState,
         onEvent = viewModel::onEvent,
         onConfirmCodeSuccess = {
-            navController.navigate(Route.Search) {
+            navController.navigate(Route.Main) {
                 popUpTo(navController.graph.id) {
                     inclusive = true
                 }

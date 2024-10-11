@@ -9,7 +9,7 @@ enum class BottomNavigation(
     @DrawableRes val iconResId: Int,
     val route: Route
 ) {
-    SEARCH(R.string.search, R.drawable.ic_search, Route.Search),
+    SEARCH(R.string.search, R.drawable.ic_search, Route.Main),
     FAVORITE(R.string.favorite, R.drawable.ic_heart, Route.Favorite),
     APPLICATION(R.string.application, R.drawable.ic_application, Route.Application),
     MESSAGE(R.string.message, R.drawable.ic_message, Route.Message),
