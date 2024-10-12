@@ -10,11 +10,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -22,17 +24,22 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import dev.ru.hireme.ui.screen.email_confirmation.StatefulEmailConfirmationScreen
 import dev.ru.hireme.ui.screen.email_confirmation.viewmodel.EmailConfirmationViewModel
+import dev.ru.hireme.ui.screen.favorite.StatefulFavoriteScreen
 import dev.ru.hireme.ui.screen.login.StatefulLoginScreen
 import dev.ru.hireme.ui.screen.main.StatefulMainScreen
+import dev.ru.hireme.ui.screen.vacancy_details.VacancyDetailsScreen
+import dev.ru.hireme.ui.util.BottomBarViewModel
 import dev.ru.hireme.ui.util.ScreenPlaceholder
+import dev.ru.hireme.ui.util.VacancyPlaceholder
 import dev.ru.hireme.ui.util.getSubstringBeforeRouteSymbols
 import dev.ru.hireme.ui.util.showBottomBar
 
 @Composable
-fun HireMeGraph() {
+fun HireMeGraph(bottomBarViewModel: BottomBarViewModel = hiltViewModel()) {
     val navController = rememberNavController()
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val vacanciesAmount by bottomBarViewModel.vacanciesAmount.collectAsState()
 
     val currentRoute = navBackStackEntry?.destination?.route ?: BottomNavigation.SEARCH.toString()
 
@@ -61,7 +68,8 @@ fun HireMeGraph() {
                                 restoreState = true
                             }
                         }
-                    }
+                    },
+                    vacanciesAmount = vacanciesAmount
                 )
             }
         }
@@ -105,7 +113,14 @@ fun HireMeGraph() {
             }
 
             composable<Route.Favorite> {
-                ScreenPlaceholder(title = "Message")
+                StatefulFavoriteScreen(navController = navController)
+            }
+
+            composable<Route.VacancyDetails> {
+                VacancyDetailsScreen(
+                    vacancy = VacancyPlaceholder,
+                    navigateUp = { navController.navigateUp() }
+                )
             }
         }
     }

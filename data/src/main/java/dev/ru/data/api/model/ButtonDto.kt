@@ -1,4 +1,4 @@
-package dev.ru.data.model
+package dev.ru.data.api.model
 
 import kotlinx.serialization.Serializable
 

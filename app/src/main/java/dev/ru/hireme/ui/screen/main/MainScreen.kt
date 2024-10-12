@@ -26,6 +26,7 @@ import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -36,7 +37,7 @@ import androidx.compose.ui.unit.dp
 import dev.ru.hireme.R
 import dev.ru.hireme.ui.screen.main.component.OfferCard
 import dev.ru.hireme.ui.screen.main.component.SearchBar
-import dev.ru.hireme.ui.screen.main.component.VacancyCard
+import dev.ru.hireme.ui.component.VacancyCard
 import dev.ru.hireme.ui.screen.main.viewmodel.MainEvent
 import dev.ru.hireme.ui.screen.main.viewmodel.MainState
 import dev.ru.hireme.ui.theme.AppColor
@@ -45,9 +46,17 @@ import dev.ru.hireme.ui.theme.AppTextStyle
 @Composable
 fun MainScreen(
     uiState: MainState,
-    onEvent: (MainEvent) -> Unit
+    onEvent: (MainEvent) -> Unit,
+    navigateToVacancyDetails: () -> Unit
 ) {
     val context = LocalContext.current
+    val error = uiState.error
+
+    LaunchedEffect(key1 = error) {
+        error?.let {
+            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+        }
+    }
 
     LazyColumn(
         modifier = Modifier
@@ -159,7 +168,11 @@ fun MainScreen(
                 vacancy = it,
                 modifier = Modifier
                     .padding(bottom = 16.dp)
-                    .animateItem()
+                    .animateItem(),
+                onFavoriteClick = {
+                    onEvent(MainEvent.SaveVacancyToFavorites(it))
+                },
+                onCardClick = navigateToVacancyDetails
             )
         }
 
@@ -175,7 +188,11 @@ fun MainScreen(
                 ) {
                     VacancyCard(
                         vacancy = it,
-                        modifier = Modifier.padding(bottom = 16.dp)
+                        modifier = Modifier.padding(bottom = 16.dp),
+                        onFavoriteClick = {
+                            onEvent(MainEvent.SaveVacancyToFavorites(it))
+                        },
+                        onCardClick = navigateToVacancyDetails
                     )
                 }
             }
@@ -216,6 +233,7 @@ fun MainScreen(
 private fun SearchScreenPreview() {
     MainScreen(
         uiState = MainState(),
-        onEvent = {}
+        onEvent = {},
+        navigateToVacancyDetails = {}
     )
 }

@@ -1,6 +1,6 @@
-package dev.ru.data.mapper
+package dev.ru.data.api.mapper
 
-import dev.ru.data.model.VacancyDto
+import dev.ru.data.api.model.VacancyDto
 import dev.ru.domain.model.Vacancy
 
 fun VacancyDto.toVacancy(): Vacancy {
@@ -13,5 +13,10 @@ fun VacancyDto.toVacancy(): Vacancy {
         company = company.orEmpty(),
         previewText = experience?.previewText.orEmpty(),
         publishedDate = publishedDate.orEmpty(),
+        schedules = schedules,
+        description = description.orEmpty(),
+        responsibilities = responsibilities.orEmpty(),
+        questions = questions,
+        salary = salary?.full.orEmpty()
     )
 }

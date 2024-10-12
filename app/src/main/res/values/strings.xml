@@ -51,4 +51,12 @@
     <string name="sort_text">По соответствию</string>
     <string name="expanded_search_placeholder">Должность по подходящим вакансиям</string>
     <string name="favorite_icon">Иконка избранного</string>
+    <string name="applied_icon">Иконка людей, которые уже откликнулись</string>
+    <string name="looking_icon">Иконка людей, которые смотрят сейчас</string>
+    <string name="map_placeholder">Карта</string>
+    <string name="your_tasks">Ваши задачи</string>
+    <string name="ask_question">Задайте вопрос работодателю</string>
+    <string name="question_receiving_with_application">Он получит его с откликом на вакансию</string>
+    <string name="applied_people">147 человек уже откликнулись</string>
+    <string name="two_people_are_looking_now">2 человека смотрят сейчас</string>
 </resources>

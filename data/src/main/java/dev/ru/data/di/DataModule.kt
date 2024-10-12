@@ -11,7 +11,7 @@ import io.ktor.http.ContentType
 import io.ktor.serialization.kotlinx.KotlinxSerializationConverter
 import kotlinx.serialization.json.Json
 
-@Module(includes = [DataBindModule::class])
+@Module(includes = [DataBindModule::class, DatabaseModule::class])
 @InstallIn(SingletonComponent::class)
 object DataModule {
 

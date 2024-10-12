@@ -3,6 +3,10 @@ package dev.ru.hireme.ui.screen.main.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.ru.domain.model.Vacancy
+import dev.ru.domain.usecase.AddFavoriteVacancyUseCase
+import dev.ru.domain.usecase.CheckVacancyFavoriteStatus
+import dev.ru.domain.usecase.DeleteFavoriteVacancyByIdUseCase
 import dev.ru.domain.usecase.GetJobDataUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -12,7 +16,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val getJobDataUseCase: GetJobDataUseCase
+    private val getJobDataUseCase: GetJobDataUseCase,
+    private val addFavoriteVacancyUseCase: AddFavoriteVacancyUseCase,
+    private val deleteFavoriteVacancyByIdUseCase: DeleteFavoriteVacancyByIdUseCase,
+    private val checkVacancyFavoriteStatus: CheckVacancyFavoriteStatus
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(MainState())
@@ -25,12 +32,8 @@ class MainViewModel @Inject constructor(
     fun onEvent(event: MainEvent) {
         when (event) {
             MainEvent.UpdateVacanciesVisibility -> updateVacanciesVisibility()
-        }
-    }
 
-    private fun updateVacanciesVisibility() {
-        _uiState.update {
-            it.copy(expandedVacancies = !it.expandedVacancies)
+            is MainEvent.SaveVacancyToFavorites -> updateVacancyFavoriteStatus(event.vacancy)
         }
     }
 
@@ -44,7 +47,12 @@ class MainViewModel @Inject constructor(
                 _uiState.update {
                     it.copy(
                         offers = jobData.offers,
-                        vacancies = jobData.vacancies,
+                        vacancies = jobData.vacancies.map { vacancy ->
+                            val isFavorite =
+                                checkVacancyFavoriteStatus(vacancy.id).getOrDefault(false)
+
+                            vacancy.copy(isFavorite = isFavorite)
+                        },
                         loading = false,
                         error = null
                     )
@@ -52,8 +60,47 @@ class MainViewModel @Inject constructor(
             }.onFailure { error ->
                 _uiState.update {
                     it.copy(
-                        loading = false,
-                        error = error.message ?: "Unknown error occurred"
+                        loading = false, error = error.message
+                    )
+                }
+            }
+        }
+    }
+
+    private fun updateVacanciesVisibility() {
+        _uiState.update {
+            it.copy(expandedVacancies = !it.expandedVacancies)
+        }
+    }
+
+    private fun updateVacancyFavoriteStatus(vacancy: Vacancy) {
+        viewModelScope.launch {
+            _uiState.update { it.copy(loading = true) }
+
+            val result = if (vacancy.isFavorite) {
+                deleteFavoriteVacancyByIdUseCase(vacancyId = vacancy.id)
+            } else {
+                addFavoriteVacancyUseCase(vacancy)
+            }
+
+            result.onSuccess {
+                _uiState.update { state ->
+                    val updatedVacancies = state.vacancies.toMutableList()
+                    val index = updatedVacancies.indexOfFirst { it.id == vacancy.id }
+
+                    if (index != -1) {
+                        updatedVacancies[index] =
+                            updatedVacancies[index].copy(isFavorite = !vacancy.isFavorite)
+                    }
+
+                    state.copy(
+                        loading = false, error = null, vacancies = updatedVacancies
+                    )
+                }
+            }.onFailure { error ->
+                _uiState.update {
+                    it.copy(
+                        loading = false, error = error.message
                     )
                 }
             }

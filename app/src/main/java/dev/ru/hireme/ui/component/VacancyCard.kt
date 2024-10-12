@@ -1,4 +1,4 @@
-package dev.ru.hireme.ui.screen.main.component
+package dev.ru.hireme.ui.component
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -34,8 +35,12 @@ import dev.ru.hireme.ui.util.toDate
 import java.time.format.TextStyle
 
 @Composable
-fun VacancyCard(vacancy: Vacancy, modifier: Modifier = Modifier) {
-
+fun VacancyCard(
+    vacancy: Vacancy,
+    onCardClick: () -> Unit,
+    onFavoriteClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     val locale = LocalConfiguration.current.locales[0]
 
     val (month: String, day: Int) = with(vacancy.publishedDate.toDate()) {
@@ -43,11 +48,11 @@ fun VacancyCard(vacancy: Vacancy, modifier: Modifier = Modifier) {
     }
 
     val favoriteIconWithTint =
-        if (vacancy.isFavorite) ImageVector.vectorResource(id = R.drawable.ic_heart) to AppColor.grey4
-        else ImageVector.vectorResource(id = R.drawable.ic_heart_active) to AppColor.blue
+        if (vacancy.isFavorite) ImageVector.vectorResource(id = R.drawable.ic_heart_active) to AppColor.blue
+        else ImageVector.vectorResource(id = R.drawable.ic_heart) to AppColor.grey4
 
     Card(
-        onClick = { /*TODO*/ },
+        onClick = onCardClick,
         modifier = modifier,
         shape = RoundedCornerShape(8.dp),
         colors = CardDefaults.cardColors(containerColor = AppColor.grey1)
@@ -64,7 +69,7 @@ fun VacancyCard(vacancy: Vacancy, modifier: Modifier = Modifier) {
                 modifier = Modifier
                     .align(Alignment.TopEnd)
                     .clip(CircleShape)
-                    .clickable { }
+                    .clickable { onFavoriteClick() }
                     .padding(8.dp)
 
             )
@@ -143,6 +148,7 @@ fun VacancyCard(vacancy: Vacancy, modifier: Modifier = Modifier) {
                         disabledContainerColor = AppColor.green
                     ),
                     modifier = Modifier
+                        .height(64.dp)
                         .fillMaxWidth()
                         .padding(top = 21.dp)
                 ) {
@@ -168,7 +174,21 @@ fun VacancyCardPreview() {
             company = "Мобирикс",
             previewText = " ",
             publishedDate = "",
-            id = ""
-        )
+            id = "",
+            responsibilities = "- Разработка дизайна Web+App (обязательно Figma)\\n\\n- Работа над созданием и улучшением систем;\\n\\n- Взаимодействие с командами frontend-разработки и backend-разработки",
+            description = "Мы разрабатываем мобильные приложения, web-приложения и сайты под ключ.\\n\\nНам в команду нужен UX/UI Designer!",
+            schedules = listOf(
+                "частичная занятость",
+                "полный день"
+            ),
+            questions = listOf(
+                "Где располагается место работы?",
+                "Какой график работы?",
+                "Как с вами связаться?"
+            ),
+            salary = "от 60 000 ₽ до вычета налогов"
+        ),
+        onFavoriteClick = {},
+        onCardClick = {}
     )
 }

@@ -1,6 +1,11 @@
-package dev.ru.domain.model
+package dev.ru.data.db.entity
 
-data class Vacancy(
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "favorites")
+data class VacancyEntity(
+    @PrimaryKey(autoGenerate = false)
     val id: String,
     val lookingNumber: Int?,
     val title: String,

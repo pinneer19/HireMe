@@ -1,6 +1,6 @@
-package dev.ru.data.mapper
+package dev.ru.data.api.mapper
 
-import dev.ru.data.model.JobDataDto
+import dev.ru.data.api.model.JobDataDto
 import dev.ru.domain.model.JobData
 import kotlinx.coroutines.Job
 

@@ -33,8 +33,10 @@ import dev.ru.hireme.ui.theme.AppColor
 import dev.ru.hireme.ui.theme.AppTextStyle
 
 @Composable
-fun OfferCard(offer: Offer, modifier: Modifier = Modifier) {
-
+fun OfferCard(
+    offer: Offer,
+    modifier: Modifier = Modifier
+) {
     val iconResId: ImageVector? = when (offer.id) {
         "near_vacancies" -> Icons.Outlined.PinDrop
         "level_up_resume" -> ImageVector.vectorResource(id = R.drawable.ic_star)
@@ -50,8 +52,7 @@ fun OfferCard(offer: Offer, modifier: Modifier = Modifier) {
 
     Card(
         onClick = { uriHandler.openUri(offer.link) },
-        modifier = modifier
-            .size(width = 160.dp, height = 145.dp),
+        modifier = modifier.size(width = 160.dp, height = 149.dp),
         shape = RoundedCornerShape(8.dp),
         colors = CardDefaults.cardColors(containerColor = AppColor.grey1)
     ) {

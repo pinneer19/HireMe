@@ -1,6 +1,6 @@
 package dev.ru.data.api
 
-import dev.ru.data.model.JobDataDto
+import dev.ru.data.api.model.JobDataDto
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
