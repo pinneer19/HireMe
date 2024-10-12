@@ -17,7 +17,7 @@ object AppColor {
     val dark_green = Color(0xFF015905)
     val red = Color(0xFFFF0000)
 
-    val shadows = Color(0xE60C0C0C)
+    val shadows = Color(0xCC0C0C0C)
     val dark_overlay = Color(0x33000000)
 
     val transparent = Color.Transparent

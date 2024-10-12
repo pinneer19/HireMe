@@ -59,4 +59,8 @@
     <string name="question_receiving_with_application">Он получит его с откликом на вакансию</string>
     <string name="applied_people">147 человек уже откликнулись</string>
     <string name="two_people_are_looking_now">2 человека смотрят сейчас</string>
+    <string name="avatar_image">Аватарка</string>
+    <string name="add_cover_letter">Добавить сопроводительное</string>
+    <string name="application_resume">Резюме для отклика</string>
+    <string name="your_cover_letter">Ваше сопроводительное письмо</string>
 </resources>

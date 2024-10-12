@@ -8,20 +8,20 @@ import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import dev.ru.hireme.R
 import dev.ru.hireme.ui.screen.email_confirmation.StatefulEmailConfirmationScreen
 import dev.ru.hireme.ui.screen.email_confirmation.viewmodel.EmailConfirmationViewModel
 import dev.ru.hireme.ui.screen.favorite.StatefulFavoriteScreen
@@ -77,7 +77,7 @@ fun HireMeGraph(bottomBarViewModel: BottomBarViewModel = hiltViewModel()) {
         NavHost(
             modifier = Modifier.padding(innerPadding),
             navController = navController,
-            startDestination = Route.Main
+            startDestination = Route.Login
         ) {
             composable<Route.Login> {
                 StatefulLoginScreen(navController)
@@ -101,15 +101,15 @@ fun HireMeGraph(bottomBarViewModel: BottomBarViewModel = hiltViewModel()) {
             }
 
             composable<Route.Message> {
-                ScreenPlaceholder(title = "Сообщения")
+                ScreenPlaceholder(title = stringResource(R.string.message))
             }
 
             composable<Route.Profile> {
-                ScreenPlaceholder(title = "Профиль")
+                ScreenPlaceholder(title = stringResource(R.string.profile))
             }
 
             composable<Route.Application> {
-                ScreenPlaceholder(title = "Отклики")
+                ScreenPlaceholder(title = stringResource(R.string.application))
             }
 
             composable<Route.Favorite> {
