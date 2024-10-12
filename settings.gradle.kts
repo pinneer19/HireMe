@@ -21,4 +21,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "HireMe"
 include(":app")
- 
+include(":domain")
+include(":data")
